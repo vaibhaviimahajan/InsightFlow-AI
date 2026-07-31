@@ -20,28 +20,6 @@ Instead of relying on a single AI model, InsightFlow AI uses specialized agents 
 
 ---
 
-## 🏗️ Architecture
-
-Upload CSV
-        │
-        ▼
-Orchestrator Agent
-        │
- ┌──────┼──────┬──────┬──────┐
- ▼      ▼      ▼      ▼      ▼
-
-Cleaning
-EDA
-Visualization
-Insights
-Recommendations
-
-        │
-        ▼
-
- Dashboard
- AI Report
- PDF Export
 
 ---
 
