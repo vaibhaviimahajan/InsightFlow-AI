@@ -65,19 +65,3 @@ Converts raw statistics into business-friendly insights.
 ### Recommendation Agent
 Generates actionable recommendations based on analytical findings.
 
----
-
-## 🚀 Future Enhancements
-
-- Forecasting
-- Dashboard Screenshot Analyzer
-- SQL Query Agent
-- RAG-based Dataset Chat
-- Power BI Explanation Agent
-- Automated Report Scheduling
-
----
-
-## 📜 License
-
-MIT
