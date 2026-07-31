@@ -28,10 +28,8 @@ Instead of relying on a single AI model, InsightFlow AI uses specialized agents 
 - NumPy
 - Plotly
 - Streamlit
-- LangGraph
 - LangChain
 - Groq / OpenAI
-- DuckDB (Optional)
 
 ---
 
