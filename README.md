@@ -1,5 +1,5 @@
 # InsightFlow-AI
-# InsightFlow AI 📊🤖
+
 
 An AI-powered Multi-Agent Data Analytics platform that automates the complete analytics workflow—from data cleaning to business recommendations.
 
