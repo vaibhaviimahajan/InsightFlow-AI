@@ -18,8 +18,6 @@ Instead of relying on a single AI model, InsightFlow AI uses specialized agents 
 - 💬 Chat with your dataset
 - 📄 Export professional PDF reports
 
----
-
 
 ---
 
