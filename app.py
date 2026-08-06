@@ -40,7 +40,9 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
 
-    df = pd.read_csv(uploaded_file)
+    from tools.loader import load_data
+
+    df = load_data(uploaded_file)
 
     st.success("✅ Dataset uploaded successfully!")
 
