@@ -6,6 +6,29 @@ st.set_page_config(
     page_icon="📊",
     layout="wide"
 )
+with st.sidebar:
+
+    st.title("📊 InsightFlow AI")
+
+    st.divider()
+
+    st.header("Pipeline")
+
+    st.success("🟢 Upload")
+
+    st.info("⚪ Cleaning")
+
+    st.info("⚪ EDA")
+
+    st.info("⚪ Visualization")
+
+    st.info("⚪ Insights")
+
+    st.info("⚪ Recommendations")
+
+    st.divider()
+
+    st.caption("Version 0.1")
 
 st.title("📊 InsightFlow AI")
 st.markdown("### AI-Powered Multi-Agent Data Analytics Platform")
