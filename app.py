@@ -61,7 +61,7 @@ if uploaded_file is not None:
     st.divider()
 
     st.subheader("📄 Dataset Preview")
-    st.dataframe(df.head(10), use_container_width=True)
+    st.dataframe(df.head(10), use_container_width=True, height=350)
     st.divider()
 
     st.subheader("📋 Column Explorer")
