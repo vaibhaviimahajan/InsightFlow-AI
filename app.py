@@ -74,7 +74,36 @@ if uploaded_file is not None:
     })
 
     st.dataframe(column_info, use_container_width=True)
+    st.divider()
 
+    st.subheader("🩺 Dataset Health Report")
+
+    memory_usage = df.memory_usage(deep=True).sum() / 1024
+
+    numeric_cols = len(df.select_dtypes(include="number").columns)
+
+    categorical_cols = len(df.select_dtypes(include="object").columns)
+
+    missing_percentage = (
+        df.isnull().sum().sum()
+        / (df.shape[0] * df.shape[1])
+    ) * 100
+
+    duplicate_percentage = (
+        df.duplicated().sum()
+        / df.shape[0]
+    ) * 100
+
+    st.write(f"**Memory Usage:** {memory_usage:.2f} KB")
+    st.write(f"**Numeric Columns:** {numeric_cols}")
+    st.write(f"**Categorical Columns:** {categorical_cols}")
+    st.write(f"**Missing Percentage:** {missing_percentage:.2f}%")
+    st.write(f"**Duplicate Percentage:** {duplicate_percentage:.2f}%")
+
+    if missing_percentage < 5 and duplicate_percentage < 2:
+        st.success("🟢 Dataset Quality: Good")
+    else:
+        st.warning("🟡 Dataset Quality: Needs Cleaning")
 
 else:
     st.info("📂 Upload a CSV file to begin analysis.")
