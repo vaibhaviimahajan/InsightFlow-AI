@@ -41,15 +41,17 @@ if uploaded_file is not None:
     st.dataframe(df.head(10), use_container_width=True)
     st.divider()
 
-st.subheader("📋 Column Explorer")
+    st.subheader("📋 Column Explorer")
 
-column_info = pd.DataFrame({
-    "Column": df.columns,
-    "Data Type": df.dtypes.astype(str),
-    "Missing Values": df.isnull().sum().values,
-    "Unique Values": df.nunique().values
-})
+    column_info = pd.DataFrame({
+        "Column": df.columns,
+        "Data Type": df.dtypes.astype(str),
+        "Missing Values": df.isnull().sum().values,
+        "Unique Values": df.nunique().values
+    })
 
-st.dataframe(column_info, use_container_width=True)
+    st.dataframe(column_info, use_container_width=True)
+
+
 else:
     st.info("📂 Upload a CSV file to begin analysis.")
