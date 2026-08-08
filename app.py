@@ -2,6 +2,7 @@ import streamlit as st
 
 from tools.loader import load_data
 from tools.overview import show_overview
+from tools.column_explorer import show_column_explorer
 
 
 st.set_page_config(
@@ -35,6 +36,8 @@ if uploaded_file is not None:
         use_container_width=True,
         height=350
     )
+
+    show_column_explorer(df)
 
 else:
     st.info("📂 Upload a CSV file to begin analysis.")
