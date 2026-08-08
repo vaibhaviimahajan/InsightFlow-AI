@@ -3,6 +3,7 @@ import streamlit as st
 from tools.loader import load_data
 from tools.overview import show_overview
 from tools.column_explorer import show_column_explorer
+from tools.health_report import show_health_report
 
 
 st.set_page_config(
@@ -38,6 +39,8 @@ if uploaded_file is not None:
     )
 
     show_column_explorer(df)
+
+    show_health_report(df)
 
 else:
     st.info("📂 Upload a CSV file to begin analysis.")
