@@ -1,40 +1,18 @@
 import streamlit as st
 
-from tools.loader import load_data
-from tools.overview import show_overview
 
+def show_overview(df):
 
-st.set_page_config(
-    page_title="InsightFlow AI",
-    page_icon="📊",
-    layout="wide"
-)
+    total_rows = df.shape[0]
+    total_columns = df.shape[1]
+    missing_values = df.isnull().sum().sum()
+    duplicate_rows = df.duplicated().sum()
 
-st.title("📊 InsightFlow AI")
-st.markdown("### AI-Powered Multi-Agent Data Analytics Platform")
+    st.subheader("📈 Dataset Overview")
 
-uploaded_file = st.file_uploader(
-    "Upload your CSV dataset",
-    type=["csv"]
-)
+    col1, col2, col3, col4 = st.columns(4)
 
-if uploaded_file is not None:
-
-    df = load_data(uploaded_file)
-
-    st.success("✅ Dataset uploaded successfully!")
-
-    show_overview(df)
-
-    st.divider()
-
-    st.subheader("📄 Dataset Preview")
-
-    st.dataframe(
-        df.head(10),
-        use_container_width=True,
-        height=350
-    )
-
-else:
-    st.info("📂 Upload a CSV file to begin analysis.")
+    col1.metric("Rows", total_rows)
+    col2.metric("Columns", total_columns)
+    col3.metric("Missing Values", missing_values)
+    col4.metric("Duplicate Rows", duplicate_rows)

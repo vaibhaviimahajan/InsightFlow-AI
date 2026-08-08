@@ -1,6 +1,7 @@
 import streamlit as st
 
 from tools.loader import load_data
+from tools.overview import show_overview
 
 
 st.set_page_config(
@@ -22,6 +23,10 @@ if uploaded_file is not None:
     df = load_data(uploaded_file)
 
     st.success("✅ Dataset uploaded successfully!")
+
+    show_overview(df)
+
+    st.divider()
 
     st.subheader("📄 Dataset Preview")
 
