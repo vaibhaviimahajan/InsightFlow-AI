@@ -12,11 +12,39 @@ st.set_page_config(
     layout="wide"
 )
 
+
+# Sidebar
+with st.sidebar:
+
+    st.title("📊 InsightFlow AI")
+
+    st.caption("AI-Powered Data Analytics")
+
+    st.divider()
+
+    st.subheader("Analytics Pipeline")
+
+    st.success("🟢 Data Upload")
+    st.info("⚪ Data Cleaning")
+    st.info("⚪ Exploratory Analysis")
+    st.info("⚪ Visualization")
+    st.info("⚪ AI Insights")
+    st.info("⚪ Recommendations")
+
+    st.divider()
+
+    st.caption("Version 0.1.0")
+
+
+# Main application
 st.title("📊 InsightFlow AI")
-st.markdown("### AI-Powered Multi-Agent Data Analytics Platform")
+
+st.markdown(
+    "### Turn raw data into business insights with AI"
+)
 
 uploaded_file = st.file_uploader(
-    "Upload your CSV dataset",
+    "📂 Upload your CSV dataset",
     type=["csv"]
 )
 
@@ -43,4 +71,7 @@ if uploaded_file is not None:
     show_health_report(df)
 
 else:
-    st.info("📂 Upload a CSV file to begin analysis.")
+
+    st.info(
+        "📂 Upload a CSV file to start the analytics pipeline."
+    )
