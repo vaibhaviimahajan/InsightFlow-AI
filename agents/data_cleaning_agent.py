@@ -47,3 +47,26 @@ def handle_missing_values(df):
             )
 
     return cleaned_df
+
+def standardize_categories(df):
+
+    cleaned_df = df.copy()
+
+    categorical_columns = cleaned_df.select_dtypes(
+        include="object"
+    ).columns
+
+    for column in categorical_columns:
+
+        cleaned_df[column] = (
+            cleaned_df[column]
+            .astype(str)
+            .str.strip()
+        )
+
+        cleaned_df[column] = (
+            cleaned_df[column]
+            .str.title()
+        )
+
+    return cleaned_df
