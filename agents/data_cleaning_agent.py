@@ -4,6 +4,7 @@ import pandas as pd
 def detect_cleaning_issues(df):
 
     report = {
+
         "duplicate_rows": int(
             df.duplicated().sum()
         ),
@@ -55,9 +56,17 @@ def handle_missing_values(df):
         .columns
     )
 
+    filled_values = 0
+
     for column in numeric_columns:
 
-        if cleaned_df[column].isnull().any():
+        missing_count = (
+            cleaned_df[column]
+            .isnull()
+            .sum()
+        )
+
+        if missing_count > 0:
 
             cleaned_df[column] = (
                 cleaned_df[column]
@@ -66,16 +75,26 @@ def handle_missing_values(df):
                 )
             )
 
+            filled_values += missing_count
+
     for column in categorical_columns:
 
-        if cleaned_df[column].isnull().any():
+        missing_count = (
+            cleaned_df[column]
+            .isnull()
+            .sum()
+        )
+
+        if missing_count > 0:
 
             cleaned_df[column] = (
                 cleaned_df[column]
                 .fillna("Unknown")
             )
 
-    return cleaned_df
+            filled_values += missing_count
+
+    return cleaned_df, filled_values
 
 
 def standardize_categories(df):
@@ -88,32 +107,64 @@ def standardize_categories(df):
         .columns
     )
 
+    standardized_columns = []
+
     for column in categorical_columns:
 
-        cleaned_df[column] = (
+        original_values = (
             cleaned_df[column]
             .astype(str)
+        )
+
+        cleaned_df[column] = (
+            original_values
             .str.strip()
             .str.title()
         )
 
-    return cleaned_df
+        if not original_values.equals(
+            cleaned_df[column]
+        ):
+
+            standardized_columns.append(
+                column
+            )
+
+    return (
+        cleaned_df,
+        standardized_columns
+    )
 
 
 def clean_dataset(df):
 
     original_rows = len(df)
 
+    original_missing = int(
+        df.isnull().sum().sum()
+    )
+
+    original_duplicates = int(
+        df.duplicated().sum()
+    )
+
+    # Remove duplicates
     cleaned_df, removed_duplicates = (
         remove_duplicates(df)
     )
 
-    cleaned_df = handle_missing_values(
-        cleaned_df
+    # Handle missing values
+    cleaned_df, filled_values = (
+        handle_missing_values(
+            cleaned_df
+        )
     )
 
-    cleaned_df = standardize_categories(
-        cleaned_df
+    # Standardize categories
+    cleaned_df, standardized_columns = (
+        standardize_categories(
+            cleaned_df
+        )
     )
 
     cleaning_report = {
@@ -122,13 +173,28 @@ def clean_dataset(df):
 
         "final_rows": len(cleaned_df),
 
-        "duplicates_removed": removed_duplicates,
+        "duplicates_removed":
+            removed_duplicates,
 
-        "missing_values_remaining": int(
-            cleaned_df.isnull()
-            .sum()
-            .sum()
-        )
+        "missing_values_found":
+            original_missing,
+
+        "missing_values_filled":
+            filled_values,
+
+        "missing_values_remaining":
+            int(
+                cleaned_df
+                .isnull()
+                .sum()
+                .sum()
+            ),
+
+        "standardized_columns":
+            standardized_columns,
+
+        "original_duplicates":
+            original_duplicates
     }
 
     return cleaned_df, cleaning_report

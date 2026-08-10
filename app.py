@@ -255,3 +255,58 @@ else:
             file_name="cleaned_dataset.csv",
             mime="text/csv"
         )
+
+    # =========================
+    # CLEANING LOG
+    # =========================
+
+    if "cleaning_report" in st.session_state:
+
+        report = (
+            st.session_state
+            .cleaning_report
+        )
+
+        st.divider()
+
+        st.subheader(
+            "📝 Cleaning Operations"
+        )
+
+        st.write(
+            f"🗑️ Removed "
+            f"**{report['duplicates_removed']}** "
+            f"duplicate rows."
+        )
+
+        st.write(
+            f"🔧 Filled "
+            f"**{report['missing_values_filled']}** "
+            f"missing values."
+        )
+
+        standardized = (
+            report["standardized_columns"]
+        )
+
+        if standardized:
+
+            st.write(
+                "🔤 Standardized categorical "
+                "columns:"
+            )
+
+            st.write(
+                ", ".join(standardized)
+            )
+
+        else:
+
+            st.write(
+                "🔤 No categorical "
+                "standardization required."
+            )
+
+        st.success(
+            "✅ Cleaning pipeline completed successfully."
+        )
