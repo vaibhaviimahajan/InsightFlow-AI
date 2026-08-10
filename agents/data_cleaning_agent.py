@@ -13,3 +13,11 @@ def detect_cleaning_issues(df):
     }
 
     return report
+
+
+def remove_duplicates(df):
+    cleaned_df = df.drop_duplicates().copy()
+
+    removed_rows = len(df) - len(cleaned_df)
+
+    return cleaned_df, removed_rows
