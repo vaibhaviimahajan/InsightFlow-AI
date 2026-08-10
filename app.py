@@ -17,10 +17,6 @@ st.set_page_config(
 )
 
 
-# =========================
-# SIDEBAR
-# =========================
-
 with st.sidebar:
 
     st.title("📊 InsightFlow AI")
@@ -43,10 +39,6 @@ with st.sidebar:
     st.caption("Version 0.2.0")
 
 
-# =========================
-# MAIN PAGE
-# =========================
-
 st.title("📊 InsightFlow AI")
 
 st.markdown(
@@ -62,19 +54,16 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
 
-    # Load dataset
     df = load_data(uploaded_file)
 
     st.success(
         f"✅ Dataset uploaded: {uploaded_file.name}"
     )
 
-    # Dataset overview
     show_overview(df)
 
     st.divider()
 
-    # Preview
     st.subheader("📄 Dataset Preview")
 
     st.dataframe(
@@ -83,17 +72,11 @@ if uploaded_file is not None:
         height=350
     )
 
-    # Column explorer
     show_column_explorer(df)
 
-    # Health report
     show_health_report(df)
 
     st.divider()
-
-    # =========================
-    # CLEANING SECTION
-    # =========================
 
     st.subheader("🧹 Data Cleaning")
 
@@ -115,13 +98,54 @@ if uploaded_file is not None:
                 clean_dataset(df)
             )
 
+        st.session_state.cleaned_df = cleaned_df
+
+        st.session_state.cleaning_report = (
+            cleaning_report
+        )
+
         st.success(
             "✅ Dataset cleaned successfully!"
         )
 
-        st.session_state.cleaned_df = cleaned_df
-        st.session_state.cleaning_report = (
-            cleaning_report
+
+    # =========================
+    # CLEANING REPORT
+    # =========================
+
+    if "cleaning_report" in st.session_state:
+
+        st.divider()
+
+        st.subheader(
+            "📋 Cleaning Report"
+        )
+
+        report = (
+            st.session_state
+            .cleaning_report
+        )
+
+        col1, col2, col3, col4 = st.columns(4)
+
+        col1.metric(
+            "Original Rows",
+            report["original_rows"]
+        )
+
+        col2.metric(
+            "Duplicates Removed",
+            report["duplicates_removed"]
+        )
+
+        col3.metric(
+            "Final Rows",
+            report["final_rows"]
+        )
+
+        col4.metric(
+            "Missing Remaining",
+            report["missing_values_remaining"]
         )
 
 else:
