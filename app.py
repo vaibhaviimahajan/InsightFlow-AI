@@ -153,3 +153,79 @@ else:
     st.info(
         "📂 Upload a CSV file to start the analytics pipeline."
     )
+    
+    # =========================
+    # BEFORE VS AFTER
+    # =========================
+
+    if "cleaned_df" in st.session_state:
+
+        cleaned_df = (
+            st.session_state.cleaned_df
+        )
+
+        st.divider()
+
+        st.subheader(
+            "🔄 Before vs After Cleaning"
+        )
+
+        before_missing = int(
+            df.isnull().sum().sum()
+        )
+
+        after_missing = int(
+            cleaned_df.isnull().sum().sum()
+        )
+
+        before_duplicates = int(
+            df.duplicated().sum()
+        )
+
+        after_duplicates = int(
+            cleaned_df.duplicated().sum()
+        )
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            st.markdown(
+                "### 🔴 Before"
+            )
+
+            st.metric(
+                "Rows",
+                len(df)
+            )
+
+            st.metric(
+                "Missing Values",
+                before_missing
+            )
+
+            st.metric(
+                "Duplicates",
+                before_duplicates
+            )
+
+        with col2:
+
+            st.markdown(
+                "### 🟢 After"
+            )
+
+            st.metric(
+                "Rows",
+                len(cleaned_df)
+            )
+
+            st.metric(
+                "Missing Values",
+                after_missing
+            )
+
+            st.metric(
+                "Duplicates",
+                after_duplicates
+            )
