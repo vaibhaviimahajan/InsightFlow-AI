@@ -21,3 +21,29 @@ def remove_duplicates(df):
     removed_rows = len(df) - len(cleaned_df)
 
     return cleaned_df, removed_rows
+
+
+def handle_missing_values(df):
+    cleaned_df = df.copy()
+
+    numeric_columns = cleaned_df.select_dtypes(
+        include="number"
+    ).columns
+
+    categorical_columns = cleaned_df.select_dtypes(
+        include="object"
+    ).columns
+
+    for column in numeric_columns:
+        if cleaned_df[column].isnull().any():
+            cleaned_df[column] = cleaned_df[column].fillna(
+                cleaned_df[column].median()
+            )
+
+    for column in categorical_columns:
+        if cleaned_df[column].isnull().any():
+            cleaned_df[column] = cleaned_df[column].fillna(
+                "Unknown"
+            )
+
+    return cleaned_df
