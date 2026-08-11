@@ -78,17 +78,16 @@ def generate_charts(df):
 
 
     # =========================
-    # HISTOGRAM
+    # DISTRIBUTION
     # =========================
 
-    if numeric_columns:
-
-        column = numeric_columns[0]
+    for column in numeric_columns[:3]:
 
         fig = px.histogram(
             df,
             x=column,
-            title=f"{column} Distribution"
+            title=f"{column} Distribution",
+            marginal="box"
         )
 
         charts.append(fig)
@@ -100,14 +99,17 @@ def generate_charts(df):
 
     if len(numeric_columns) >= 2:
 
+        x_column = numeric_columns[0]
+        y_column = numeric_columns[1]
+
         fig = px.scatter(
             df,
-            x=numeric_columns[0],
-            y=numeric_columns[1],
+            x=x_column,
+            y=y_column,
             title=(
-                f"{numeric_columns[1]} "
-                f"vs {numeric_columns[0]}"
-            )
+                f"{y_column} vs {x_column}"
+            ),
+            trendline="ols"
         )
 
         charts.append(fig)
