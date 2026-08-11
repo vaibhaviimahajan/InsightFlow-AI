@@ -58,6 +58,22 @@ def generate_statistics(df):
 
     statistics = df[numeric_columns].describe().T
 
-    statistics = statistics.round(2)
+    return statistics.round(2)
 
-    return statistics
+
+def generate_correlations(df):
+
+    numeric_columns = df.select_dtypes(
+        include="number"
+    ).columns
+
+    if len(numeric_columns) < 2:
+        return pd.DataFrame()
+
+    correlation_matrix = (
+        df[numeric_columns]
+        .corr()
+        .round(2)
+    )
+
+    return correlation_matrix
