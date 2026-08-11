@@ -45,3 +45,19 @@ def generate_kpis(df):
         }
 
     return kpis
+
+
+def generate_statistics(df):
+
+    numeric_columns = df.select_dtypes(
+        include="number"
+    ).columns
+
+    if len(numeric_columns) == 0:
+        return pd.DataFrame()
+
+    statistics = df[numeric_columns].describe().T
+
+    statistics = statistics.round(2)
+
+    return statistics
