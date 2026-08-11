@@ -25,3 +25,23 @@ def generate_summary(df):
     }
 
     return summary
+
+
+def generate_kpis(df):
+
+    numeric_columns = df.select_dtypes(
+        include="number"
+    ).columns
+
+    kpis = {}
+
+    for column in numeric_columns:
+
+        kpis[column] = {
+            "sum": float(df[column].sum()),
+            "mean": float(df[column].mean()),
+            "min": float(df[column].min()),
+            "max": float(df[column].max())
+        }
+
+    return kpis
