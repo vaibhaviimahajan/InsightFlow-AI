@@ -4,7 +4,7 @@ from tools.loader import load_data
 from tools.overview import show_overview
 from tools.column_explorer import show_column_explorer
 from tools.health_report import show_health_report
-
+from agents.visualization_agent import generate_charts
 from agents.data_cleaning_agent import clean_dataset
 
 from agents.eda_agent import (
@@ -336,4 +336,39 @@ else:
 
     st.info(
         "No suitable categorical columns found."
+    )
+
+# ==================================================
+# VISUALIZATION
+# ==================================================
+
+st.divider()
+
+st.header(
+    "📈 Automated Visualizations"
+)
+
+st.write(
+    "InsightFlow AI automatically selects "
+    "charts based on your dataset."
+)
+
+
+charts = generate_charts(df)
+
+
+if charts:
+
+    for chart in charts:
+
+        st.plotly_chart(
+            chart,
+            use_container_width=True
+        )
+
+else:
+
+    st.info(
+        "Not enough suitable columns "
+        "to generate visualizations."
     )
