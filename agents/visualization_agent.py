@@ -1,7 +1,8 @@
 import pandas as pd
+import plotly.express as px
 
 
-def detect_chart_types(df):
+def generate_charts(df):
 
     charts = []
 
@@ -17,35 +18,81 @@ def detect_chart_types(df):
         include=["datetime", "datetimetz"]
     ).columns.tolist()
 
+
+    # Line chart
+
     if datetime_columns and numeric_columns:
 
-        charts.append({
-            "type": "line",
-            "x": datetime_columns[0],
-            "y": numeric_columns[0]
-        })
+        fig = px.line(
+            df,
+            x=datetime_columns[0],
+            y=numeric_columns[0],
+            title=(
+                f"{numeric_columns[0]} Over Time"
+            )
+        )
+
+        charts.append(fig)
+
+
+    # Bar chart
 
     if categorical_columns and numeric_columns:
 
-        charts.append({
-            "type": "bar",
-            "x": categorical_columns[0],
-            "y": numeric_columns[0]
-        })
+        category = categorical_columns[0]
+        metric = numeric_columns[0]
+
+        grouped = (
+            df.groupby(category)[metric]
+            .sum()
+            .reset_index()
+            .sort_values(
+                metric,
+                ascending=False
+            )
+            .head(10)
+        )
+
+        fig = px.bar(
+            grouped,
+            x=category,
+            y=metric,
+            title=f"{metric} by {category}"
+        )
+
+        charts.append(fig)
+
+
+    # Histogram
 
     if numeric_columns:
 
-        charts.append({
-            "type": "histogram",
-            "column": numeric_columns[0]
-        })
+        column = numeric_columns[0]
+
+        fig = px.histogram(
+            df,
+            x=column,
+            title=f"{column} Distribution"
+        )
+
+        charts.append(fig)
+
+
+    # Scatter
 
     if len(numeric_columns) >= 2:
 
-        charts.append({
-            "type": "scatter",
-            "x": numeric_columns[0],
-            "y": numeric_columns[1]
-        })
+        fig = px.scatter(
+            df,
+            x=numeric_columns[0],
+            y=numeric_columns[1],
+            title=(
+                f"{numeric_columns[1]} "
+                f"vs {numeric_columns[0]}"
+            )
+        )
+
+        charts.append(fig)
+
 
     return charts
