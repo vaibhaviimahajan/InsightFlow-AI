@@ -1,4 +1,3 @@
-import pandas as pd
 import plotly.express as px
 
 
@@ -14,28 +13,10 @@ def generate_charts(df):
         include="object"
     ).columns.tolist()
 
-    datetime_columns = df.select_dtypes(
-        include=["datetime", "datetimetz"]
-    ).columns.tolist()
 
-
-    # Line chart
-
-    if datetime_columns and numeric_columns:
-
-        fig = px.line(
-            df,
-            x=datetime_columns[0],
-            y=numeric_columns[0],
-            title=(
-                f"{numeric_columns[0]} Over Time"
-            )
-        )
-
-        charts.append(fig)
-
-
-    # Bar chart
+    # =========================
+    # CATEGORY BAR CHART
+    # =========================
 
     if categorical_columns and numeric_columns:
 
@@ -63,7 +44,42 @@ def generate_charts(df):
         charts.append(fig)
 
 
-    # Histogram
+    # =========================
+    # SECOND CATEGORY
+    # =========================
+
+    if (
+        len(categorical_columns) >= 2
+        and numeric_columns
+    ):
+
+        category = categorical_columns[1]
+        metric = numeric_columns[0]
+
+        grouped = (
+            df.groupby(category)[metric]
+            .sum()
+            .reset_index()
+            .sort_values(
+                metric,
+                ascending=False
+            )
+            .head(10)
+        )
+
+        fig = px.bar(
+            grouped,
+            x=category,
+            y=metric,
+            title=f"{metric} by {category}"
+        )
+
+        charts.append(fig)
+
+
+    # =========================
+    # HISTOGRAM
+    # =========================
 
     if numeric_columns:
 
@@ -78,7 +94,9 @@ def generate_charts(df):
         charts.append(fig)
 
 
-    # Scatter
+    # =========================
+    # SCATTER
+    # =========================
 
     if len(numeric_columns) >= 2:
 
