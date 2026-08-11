@@ -11,7 +11,8 @@ from agents.eda_agent import (
     generate_summary,
     generate_kpis,
     generate_statistics,
-    generate_correlations
+    generate_correlations,
+    generate_category_analysis
 )
 
 
@@ -302,4 +303,37 @@ else:
     st.info(
         "At least two numerical columns "
         "are required for correlation analysis."
+    )
+    
+# =========================
+# CATEGORY ANALYSIS
+# =========================
+
+st.subheader(
+    "📊 Category Analysis"
+)
+
+category_results = (
+    generate_category_analysis(df)
+)
+
+if category_results:
+
+    for column, analysis in (
+        category_results.items()
+    ):
+
+        st.markdown(
+            f"### {column}"
+        )
+
+        st.dataframe(
+            analysis,
+            use_container_width=True
+        )
+
+else:
+
+    st.info(
+        "No suitable categorical columns found."
     )
