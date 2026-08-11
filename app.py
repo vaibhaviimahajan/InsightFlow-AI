@@ -7,6 +7,11 @@ from tools.health_report import show_health_report
 
 from agents.data_cleaning_agent import clean_dataset
 
+from agents.eda_agent import (
+    generate_summary,
+    generate_kpis
+)
+
 
 # =========================
 # PAGE CONFIG
@@ -35,14 +40,14 @@ with st.sidebar:
 
     st.success("🟢 Data Upload")
     st.success("🟢 Data Cleaning")
-    st.info("⚪ Exploratory Analysis")
+    st.success("🟢 Exploratory Analysis")
     st.info("⚪ Visualization")
     st.info("⚪ AI Insights")
     st.info("⚪ Recommendations")
 
     st.divider()
 
-    st.caption("Version 0.2.0")
+    st.caption("Version 0.3.0")
 
 
 # =========================
@@ -109,19 +114,19 @@ if uploaded_file is not None:
 
 
     # =========================
-    # HEALTH REPORT
+    # DATASET HEALTH
     # =========================
 
     show_health_report(df)
 
 
-    # =========================
+    # ==================================================
     # DATA CLEANING
-    # =========================
+    # ==================================================
 
     st.divider()
 
-    st.subheader("🧹 Data Cleaning")
+    st.header("🧹 Data Cleaning")
 
     st.write(
         "Automatically detect and fix common "
@@ -143,8 +148,10 @@ if uploaded_file is not None:
             )
 
 
-        # Save results
-        st.session_state.cleaned_df = cleaned_df
+        # Store cleaned data
+        st.session_state.cleaned_df = (
+            cleaned_df
+        )
 
         st.session_state.cleaning_report = (
             cleaning_report
@@ -156,9 +163,9 @@ if uploaded_file is not None:
         )
 
 
-    # =========================
+    # ==================================================
     # CLEANING REPORT
-    # =========================
+    # ==================================================
 
     if "cleaning_report" in st.session_state:
 
@@ -166,8 +173,6 @@ if uploaded_file is not None:
             st.session_state.cleaning_report
         )
 
-
-        st.divider()
 
         st.subheader(
             "📋 Cleaning Report"
@@ -204,8 +209,6 @@ if uploaded_file is not None:
         # =========================
         # CLEANING OPERATIONS
         # =========================
-
-        st.divider()
 
         st.subheader(
             "📝 Cleaning Operations"
@@ -274,6 +277,7 @@ if uploaded_file is not None:
             df.isnull().sum().sum()
         )
 
+
         after_missing = int(
             cleaned_df.isnull().sum().sum()
         )
@@ -282,6 +286,7 @@ if uploaded_file is not None:
         before_duplicates = int(
             df.duplicated().sum()
         )
+
 
         after_duplicates = int(
             cleaned_df.duplicated().sum()
@@ -341,6 +346,7 @@ if uploaded_file is not None:
             "🧹 Cleaned Dataset Preview"
         )
 
+
         st.dataframe(
             cleaned_df.head(10),
             use_container_width=True,
@@ -349,10 +355,8 @@ if uploaded_file is not None:
 
 
         # =========================
-        # DOWNLOAD CLEANED CSV
+        # DOWNLOAD CLEANED DATA
         # =========================
-
-        st.divider()
 
         st.subheader(
             "📥 Download Cleaned Dataset"
@@ -371,6 +375,81 @@ if uploaded_file is not None:
             data=csv_data,
             file_name="cleaned_dataset.csv",
             mime="text/csv"
+        )
+
+
+    # ==================================================
+    # EXPLORATORY DATA ANALYSIS
+    # ==================================================
+
+    st.divider()
+
+    st.header("🔎 Exploratory Data Analysis")
+
+    st.write(
+        "Automatically analyze the dataset "
+        "and identify important patterns."
+    )
+
+
+    # =========================
+    # EDA SUMMARY
+    # =========================
+
+    eda_summary = generate_summary(df)
+
+
+    st.success(
+        "✅ EDA analysis completed!"
+    )
+
+
+    # =========================
+    # KPI CARDS
+    # =========================
+
+    st.subheader(
+        "📊 Key Performance Indicators"
+    )
+
+
+    kpis = generate_kpis(df)
+
+
+    if kpis:
+
+        kpi_columns = list(
+            kpis.keys()
+        )
+
+
+        # Show maximum 4 KPI cards
+        display_columns = kpi_columns[:4]
+
+
+        cols = st.columns(
+            len(display_columns)
+        )
+
+
+        for col, column in zip(
+            cols,
+            display_columns
+        ):
+
+            with col:
+
+                st.metric(
+                    label=f"Total {column}",
+                    value=f"{kpis[column]['sum']:,.2f}"
+                )
+
+
+    else:
+
+        st.info(
+            "No numerical columns available "
+            "for KPI generation."
         )
 
 
