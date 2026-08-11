@@ -1,5 +1,5 @@
 import streamlit as st
-
+import plotly.express as px
 from tools.loader import load_data
 from tools.overview import show_overview
 from tools.column_explorer import show_column_explorer
@@ -10,7 +10,8 @@ from agents.data_cleaning_agent import clean_dataset
 from agents.eda_agent import (
     generate_summary,
     generate_kpis,
-    generate_statistics
+    generate_statistics,
+    generate_correlations
 )
 
 
@@ -270,4 +271,35 @@ else:
 
     st.info(
         "📂 Upload a CSV file to start."
+    )
+
+# =========================
+# CORRELATION ANALYSIS
+# =========================
+
+st.subheader(
+    "🔥 Correlation Analysis"
+)
+
+correlations = generate_correlations(df)
+
+if not correlations.empty:
+
+    fig = px.imshow(
+        correlations,
+        text_auto=True,
+        aspect="auto",
+        title="Numerical Feature Correlations"
+    )
+
+    st.plotly_chart(
+        fig,
+        use_container_width=True
+    )
+
+else:
+
+    st.info(
+        "At least two numerical columns "
+        "are required for correlation analysis."
     )

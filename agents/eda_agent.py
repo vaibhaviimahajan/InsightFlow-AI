@@ -11,7 +11,7 @@ def generate_summary(df):
         include="object"
     ).columns.tolist()
 
-    summary = {
+    return {
         "total_rows": len(df),
         "total_columns": len(df.columns),
         "numeric_columns": numeric_columns,
@@ -23,8 +23,6 @@ def generate_summary(df):
             df.duplicated().sum()
         )
     }
-
-    return summary
 
 
 def generate_kpis(df):
@@ -56,11 +54,25 @@ def generate_statistics(df):
     if len(numeric_columns) == 0:
         return pd.DataFrame()
 
-    statistics = (
+    return (
         df[numeric_columns]
         .describe()
         .T
         .round(2)
     )
 
-    return statistics
+
+def generate_correlations(df):
+
+    numeric_columns = df.select_dtypes(
+        include="number"
+    ).columns
+
+    if len(numeric_columns) < 2:
+        return pd.DataFrame()
+
+    return (
+        df[numeric_columns]
+        .corr()
+        .round(2)
+    )
