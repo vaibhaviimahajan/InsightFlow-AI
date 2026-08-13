@@ -15,6 +15,11 @@ from agents.eda_agent import (
     generate_category_analysis
 )
 
+from agents.insight_agent import (
+    generate_insight_summary,
+    find_top_bottom_performers,
+    detect_trends
+)
 
 st.set_page_config(
     page_title="InsightFlow AI",
@@ -371,4 +376,55 @@ else:
     st.info(
         "Not enough suitable columns "
         "to generate visualizations."
+    )
+    
+    
+# ==================================================
+# AI BUSINESS INSIGHTS
+# ==================================================
+
+st.divider()
+
+st.header("💡 Business Insights")
+
+st.write(
+    "Automatically generated observations "
+    "from your dataset."
+)
+
+
+insights = generate_insight_summary(df)
+
+for insight in insights:
+
+    st.info(
+        f"💡 {insight}"
+    )
+
+
+st.subheader(
+    "🏆 Top & Bottom Performers"
+)
+
+performance_insights = (
+    find_top_bottom_performers(df)
+)
+
+for insight in performance_insights:
+
+    st.success(
+        f"📊 {insight}"
+    )
+
+
+st.subheader(
+    "📈 Trend Analysis"
+)
+
+trend_insights = detect_trends(df)
+
+for insight in trend_insights:
+
+    st.warning(
+        f"📈 {insight}"
     )
