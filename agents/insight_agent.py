@@ -35,10 +35,7 @@ def find_top_bottom_performers(df):
 
     results = []
 
-    if not categorical_columns:
-        return results
-
-    if not numeric_columns:
+    if not categorical_columns or not numeric_columns:
         return results
 
     category = categorical_columns[0]
@@ -52,22 +49,75 @@ def find_top_bottom_performers(df):
 
     if len(grouped) > 0:
 
-        top_category = grouped.index[0]
-        top_value = grouped.iloc[0]
-
-        bottom_category = grouped.index[-1]
-        bottom_value = grouped.iloc[-1]
-
         results.append(
-            f"{top_category} is the top-performing "
-            f"{category} with {top_value:,.2f} "
-            f"in total {metric}."
+            f"Top {category}: "
+            f"{grouped.index[0]} "
+            f"({grouped.iloc[0]:,.2f})"
         )
 
         results.append(
-            f"{bottom_category} is the lowest-performing "
-            f"{category} with {bottom_value:,.2f} "
-            f"in total {metric}."
+            f"Lowest {category}: "
+            f"{grouped.index[-1]} "
+            f"({grouped.iloc[-1]:,.2f})"
         )
+
+    return results
+
+
+def detect_trends(df):
+
+    numeric_columns = df.select_dtypes(
+        include="number"
+    ).columns.tolist()
+
+    results = []
+
+    for column in numeric_columns:
+
+        if len(df) < 2:
+            continue
+
+        first_half = (
+            df[column]
+            .iloc[:len(df) // 2]
+            .mean()
+        )
+
+        second_half = (
+            df[column]
+            .iloc[len(df) // 2:]
+            .mean()
+        )
+
+        if first_half == 0:
+            continue
+
+        change = (
+            (second_half - first_half)
+            / abs(first_half)
+        ) * 100
+
+        if change > 5:
+
+            results.append(
+                f"{column} increased by "
+                f"{change:.1f}% between the first "
+                f"and second half of the dataset."
+            )
+
+        elif change < -5:
+
+            results.append(
+                f"{column} decreased by "
+                f"{abs(change):.1f}% between the first "
+                f"and second half of the dataset."
+            )
+
+        else:
+
+            results.append(
+                f"{column} remained relatively stable "
+                f"across the dataset."
+            )
 
     return results
