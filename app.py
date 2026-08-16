@@ -6,6 +6,7 @@ from tools.column_explorer import show_column_explorer
 from tools.health_report import show_health_report
 from agents.visualization_agent import generate_charts
 from agents.data_cleaning_agent import clean_dataset
+from agents.insight_agent import generate_ai_insights
 
 from agents.eda_agent import (
     generate_summary,
@@ -433,3 +434,26 @@ for insight in trend_insights:
     st.warning(
         f"📈 {insight}"
     )
+    
+# =========================
+# MISTRAL AI INSIGHTS
+# =========================
+
+st.divider()
+
+st.header("🤖 AI Business Insights")
+
+st.write(
+    "Mistral AI analyzes the dataset and "
+    "generates business-focused insights."
+)
+
+if st.button("✨ Generate AI Insights"):
+
+    with st.spinner(
+        "Mistral AI is analyzing your dataset..."
+    ):
+
+        ai_insights = generate_ai_insights(df)
+
+    st.markdown(ai_insights)
