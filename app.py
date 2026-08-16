@@ -644,3 +644,11 @@ if st.button("📋 Generate Business Report"):
         )
 
     st.markdown(business_report)
+
+    st.download_button(
+        label="📥 Download Business Report",
+        data=business_report,
+        file_name="insightflow_business_report.txt",
+        mime="text/plain"
+    )
+    
