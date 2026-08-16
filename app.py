@@ -571,3 +571,51 @@ if st.button("🎯 Generate Recommendations"):
         )
 
     st.markdown(recommendations)
+    
+    # ==================================================
+# CHAT WITH DATASET
+# ==================================================
+
+st.divider()
+
+st.header("💬 Chat With Your Dataset")
+
+st.write(
+    "Ask questions about your uploaded dataset "
+    "using natural language."
+)
+
+st.markdown("**Try asking:**")
+
+example_questions = [
+    "Which category performs best?",
+    "What is the average sales?",
+    "Which region has the highest revenue?",
+    "What are the strongest performing products?"
+]
+
+for example in example_questions:
+
+    st.caption(f"• {example}")
+
+
+question = st.text_input(
+    "Ask a question",
+    placeholder="Example: Which category has the highest sales?"
+)
+
+
+if st.button("💬 Ask AI") and question:
+
+    with st.spinner(
+        "Mistral AI is analyzing your dataset..."
+    ):
+
+        answer = ask_dataset_question(
+            df,
+            question
+        )
+
+    st.markdown("### 🤖 AI Answer")
+
+    st.info(answer)
