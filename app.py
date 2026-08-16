@@ -27,6 +27,11 @@ from agents.insight_agent import (
     generate_executive_summary
 )
 
+from agents.insight_agent import (
+    generate_ai_insights,
+    generate_executive_summary
+)
+
 st.set_page_config(
     page_title="InsightFlow AI",
     page_icon="📊",
@@ -457,3 +462,15 @@ if st.button("✨ Generate AI Insights"):
         ai_insights = generate_ai_insights(df)
 
     st.markdown(ai_insights)
+
+st.subheader("📋 Executive Summary")
+
+if st.button("📋 Generate Executive Summary"):
+
+    with st.spinner(
+        "Generating executive summary..."
+    ):
+
+        summary = generate_executive_summary(df)
+
+    st.success(summary)
