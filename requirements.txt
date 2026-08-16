@@ -9,3 +9,4 @@ python-dotenv
 reportlab
 duckdb
 langchain-groq
+mistralai

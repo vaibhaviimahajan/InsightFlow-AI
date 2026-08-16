@@ -21,6 +21,11 @@ from agents.insight_agent import (
     detect_trends
 )
 
+from agents.insight_agent import (
+    generate_ai_insights,
+    generate_executive_summary
+)
+
 st.set_page_config(
     page_title="InsightFlow AI",
     page_icon="📊",
