@@ -94,7 +94,31 @@ if uploaded_file is not None:
     st.success(
         f"✅ Dataset uploaded: {uploaded_file.name}"
     )
+    
+    # =========================
+    # PIPELINE STATUS
+    # =========================
 
+    st.divider()
+
+    st.subheader("⚙️ Analysis Pipeline")
+
+    pipeline_col1, pipeline_col2, pipeline_col3, pipeline_col4, pipeline_col5 = st.columns(5)
+
+    with pipeline_col1:
+        st.success("🟢 Upload")
+
+    with pipeline_col2:
+        st.success("🟢 Cleaning")
+
+    with pipeline_col3:
+        st.success("🟢 EDA")
+
+    with pipeline_col4:
+        st.success("🟢 Visualization")
+
+    with pipeline_col5:
+        st.success("🟢 AI Analysis")
 
     # =========================
     # DATASET INFORMATION
