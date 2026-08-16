@@ -1,65 +1,49 @@
-from agents.llm import get_llm
+from agents.llm import get_mistral_client
+
+
+MODEL = "mistral-small-latest"
 
 
 def generate_ai_insights(df):
 
-    llm = get_llm()
+    client = get_mistral_client()
 
     summary = df.describe(
         include="all"
     ).to_string()
 
     prompt = f"""
-You are a senior business analyst.
+You are a senior data analyst.
 
-Analyze this dataset:
-
-{summary}
-
-Provide:
-
-1. Five important business insights
-2. Three potential business risks
-3. Three opportunities
-4. A short executive summary
-
-Focus on actionable business meaning.
-
-Avoid generic statements.
-"""
-
-    response = llm.invoke(prompt)
-
-    return response.content
-
-
-def generate_executive_summary(df):
-
-    llm = get_llm()
-
-    summary = df.describe(
-        include="all"
-    ).to_string()
-
-    prompt = f"""
-Create a professional one-paragraph
-executive summary for a business report.
-
-Dataset:
+Analyze this dataset summary:
 
 {summary}
 
-The summary should explain:
+Generate 5 important business insights.
 
-- overall performance
-- important trends
-- strongest areas
-- weakest areas
-- business opportunities
+Focus on:
+- unusual patterns
+- strong performance
+- weak performance
+- possible business problems
+- opportunities
 
-Use concise business language.
+Do not simply repeat statistics.
+
+Explain what the numbers mean
+from a business perspective.
+
+Return a numbered list.
 """
 
-    response = llm.invoke(prompt)
+    response = client.chat.complete(
+        model=MODEL,
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
 
-    return response.content
+    return response.choices[0].message.content
