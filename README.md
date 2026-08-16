@@ -23,13 +23,16 @@ Instead of relying on a single AI model, InsightFlow AI uses specialized agents 
 
 ## 🛠️ Tech Stack
 
+
 - Python
 - Pandas
 - NumPy
 - Plotly
 - Streamlit
+- Mistral AI
 - LangChain
-- Groq / OpenAI
+- PostgreSQL / DuckDB
+- Git & GitHub
 
 ---
 
@@ -63,3 +66,26 @@ Converts raw statistics into business-friendly insights.
 ### Recommendation Agent
 Generates actionable recommendations based on analytical findings.
 
+### Agent Pipeline
+
+CSV Upload
+↓
+Data Cleaning Agent
+↓
+EDA Agent
+↓
+Visualization Agent
+↓
+Insight Agent
+↓
+Recommendation Agent
+
+### AI Capabilities
+
+- Automated data cleaning
+- Exploratory data analysis
+- Automatic visualization
+- Business insight generation
+- Executive summary generation
+- Data-driven recommendations
+- Natural language analysis
