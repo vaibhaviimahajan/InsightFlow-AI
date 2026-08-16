@@ -1,22 +1,14 @@
 import os
+from mistralai import Mistral
 
-from langchain_groq import ChatGroq
 
+def get_mistral_client():
 
-def get_llm():
-
-    api_key = os.getenv(
-        "GROQ_API_KEY"
-    )
+    api_key = os.getenv("MISTRAL_API_KEY")
 
     if not api_key:
-
         raise ValueError(
-            "GROQ_API_KEY is not configured."
+            "MISTRAL_API_KEY is not configured."
         )
 
-    return ChatGroq(
-        model="llama-3.1-8b-instant",
-        temperature=0,
-        api_key=api_key
-    )
+    return Mistral(api_key=api_key)
