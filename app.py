@@ -8,7 +8,7 @@ from agents.visualization_agent import generate_charts
 from agents.data_cleaning_agent import clean_dataset
 from agents.insight_agent import generate_ai_insights
 from agents.dataset_chat import ask_dataset_question
-
+from agents.report_agent import generate_business_report
 
 from agents.eda_agent import (
     generate_summary,
@@ -619,3 +619,28 @@ if st.button("💬 Ask AI") and question:
     st.markdown("### 🤖 AI Answer")
 
     st.info(answer)
+    
+# ==================================================
+# AI BUSINESS REPORT
+# ==================================================
+
+st.divider()
+
+st.header("📋 AI Business Report")
+
+st.write(
+    "Generate a complete business analysis "
+    "using Mistral AI."
+)
+
+if st.button("📋 Generate Business Report"):
+
+    with st.spinner(
+        "Mistral AI is preparing your report..."
+    ):
+
+        business_report = (
+            generate_business_report(df)
+        )
+
+    st.markdown(business_report)
