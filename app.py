@@ -50,6 +50,15 @@ with st.sidebar:
     st.caption("AI-Powered Data Analytics")
 
     st.divider()
+    st.subheader("🤖 AI Analyst Team")
+
+    st.info("🧹 Data Cleaning Agent")
+    st.info("🔎 EDA Agent")
+    st.info("📈 Visualization Agent")
+    st.info("💡 Insight Agent")
+    st.info("🎯 Recommendation Agent")
+
+    st.divider()
 
     st.subheader("Analytics Pipeline")
 
