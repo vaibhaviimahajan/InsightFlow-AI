@@ -32,6 +32,10 @@ from agents.insight_agent import (
     generate_executive_summary
 )
 
+from agents.recommendation_agent import (
+    generate_recommendations
+)
+
 st.set_page_config(
     page_title="InsightFlow AI",
     page_icon="📊",
@@ -474,3 +478,28 @@ if st.button("📋 Generate Executive Summary"):
         summary = generate_executive_summary(df)
 
     st.success(summary)
+    
+# =========================
+# AI RECOMMENDATIONS
+# =========================
+
+st.divider()
+
+st.header("🎯 AI Recommendations")
+
+st.write(
+    "Generate actionable recommendations "
+    "based on the uploaded dataset."
+)
+
+if st.button("🎯 Generate Recommendations"):
+
+    with st.spinner(
+        "Mistral AI is generating recommendations..."
+    ):
+
+        recommendations = (
+            generate_recommendations(df)
+        )
+
+    st.markdown(recommendations)
