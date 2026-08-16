@@ -7,6 +7,8 @@ from tools.health_report import show_health_report
 from agents.visualization_agent import generate_charts
 from agents.data_cleaning_agent import clean_dataset
 from agents.insight_agent import generate_ai_insights
+from agents.dataset_chat import ask_dataset_question
+
 
 from agents.eda_agent import (
     generate_summary,
@@ -95,6 +97,39 @@ if uploaded_file is not None:
         f"✅ Dataset uploaded: {uploaded_file.name}"
     )
     
+        # ==================================================
+    # CHAT WITH DATASET
+    # ==================================================
+
+    st.divider()
+
+    st.header("💬 Chat With Your Dataset")
+
+    st.write(
+        "Ask questions about your uploaded dataset "
+        "using natural language."
+    )
+
+    question = st.text_input(
+        "Ask a question",
+        placeholder="Example: Which category has the highest sales?"
+    )
+
+    if st.button("💬 Ask AI") and question:
+
+        with st.spinner(
+            "Mistral AI is analyzing your dataset..."
+        ):
+
+            answer = ask_dataset_question(
+                df,
+                question
+            )
+
+        st.markdown("### 🤖 AI Answer")
+
+        st.write(answer)
+        
     # =========================
     # PIPELINE STATUS
     # =========================
